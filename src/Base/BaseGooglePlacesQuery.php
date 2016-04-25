@@ -2,6 +2,7 @@
 
 namespace GooglePlacesSuite\Base;
 
+use CommonException;
 use GooglePlacesSuite;
 use GoogleDataStructure;
 
@@ -75,10 +76,10 @@ abstract class BaseGooglePlacesQuery
 	 *
 	 * @param string
 	 * @return string
-	 * @throws GooglePlacesSuite\Exception\ApiException
-	 * @throws GooglePlacesSuite\Exception\ApiLimitException
-	 * @throws GooglePlacesSuite\Exception\ApiNoResultsException
-	 * @throws GooglePlacesSuite\Exception\NetworkException
+	 * @throws CommonException\ApiException\ApiException
+	 * @throws CommonException\ApiException\ApiLimitException
+	 * @throws CommonException\ApiException\ApiNoResultsException
+	 * @throws CommonException\ApiException\NetworkException
 	 */
 	protected function request($url)
 	{
@@ -88,7 +89,7 @@ abstract class BaseGooglePlacesQuery
 		$response = curl_exec($curl);
 		curl_close($curl);
 		if (!$response) {
-			throw new GooglePlacesSuite\Exception\NetworkException('Curling the API endpoint ' . $url . ' failed.');
+			throw new CommonException\ApiException\NetworkException('Curling the API endpoint ' . $url . ' failed.');
 		}
 		$responseData = @json_decode($response, true);
 		$this->validateResponse($response, $responseData);
@@ -98,26 +99,26 @@ abstract class BaseGooglePlacesQuery
 	/**
 	 * @param string $rawResponse
 	 * @param array|string $responseData
-	 * @throws GooglePlacesSuite\Exception\ApiException
-	 * @throws GooglePlacesSuite\Exception\ApiLimitException
-	 * @throws GooglePlacesSuite\Exception\ApiNoResultsException
+	 * @throws CommonException\ApiException\ApiException
+	 * @throws CommonException\ApiException\ApiLimitException
+	 * @throws CommonException\ApiException\ApiNoResultsException
 	 */
 	private function validateResponse($rawResponse, $responseData)
 	{
 		if (is_null($responseData) || !is_array($responseData) || !isset($responseData['status'])) {
-			throw new GooglePlacesSuite\Exception\ApiException('Parsing the API response from body failed: ' . $rawResponse);
+			throw new CommonException\ApiException\ApiException('Parsing the API response from body failed: ' . $rawResponse);
 		}
 
 		$responseStatus = mb_strtoupper($responseData['status']);
 		if ($responseStatus == 'OVER_QUERY_LIMIT') {
 			$exceptionMessage = $this->buildExceptionMessage('Google Places request limit reached', $responseData);
-			throw new GooglePlacesSuite\Exception\ApiLimitException($exceptionMessage);
+			throw new CommonException\ApiException\ApiLimitException($exceptionMessage);
 		} else if ($responseStatus == 'REQUEST_DENIED') {
 			$exceptionMessage = $this->buildExceptionMessage('Google Places request was denied', $responseData);
-			throw new GooglePlacesSuite\Exception\ApiException($exceptionMessage);
+			throw new CommonException\ApiException\ApiException($exceptionMessage);
 		} else if ($responseStatus != 'OK') {
 			$exceptionMessage = $this->buildExceptionMessage('Google Places no results', $responseData);
-			throw new GooglePlacesSuite\Exception\ApiNoResultsException($exceptionMessage);
+			throw new CommonException\ApiException\ApiNoResultsException($exceptionMessage);
 		}
 	}
 

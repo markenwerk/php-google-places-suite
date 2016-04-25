@@ -2,6 +2,8 @@
 
 namespace GooglePlacesSuite;
 
+use CommonException;
+
 /**
  * Class GooglePlacesDetailQueryTest
  *
@@ -80,7 +82,7 @@ class GooglePlacesDetailQueryTest extends \PHPUnit_Framework_TestCase
 
 	public function testQueryNoResults()
 	{
-		$this->setExpectedException(get_class(new Exception\ApiNoResultsException()));
+		$this->setExpectedException(get_class(new CommonException\ApiException\ApiNoResultsException()));
 		$googlePlacesDetailQuery = new GooglePlacesDetailQuery();
 		$googlePlacesDetailQuery
 			->setApiKey($this->googlePlacesApiKey)
@@ -89,7 +91,7 @@ class GooglePlacesDetailQueryTest extends \PHPUnit_Framework_TestCase
 
 	public function testQueryApiKey()
 	{
-		$this->setExpectedException(get_class(new Exception\ApiException()));
+		$this->setExpectedException(get_class(new CommonException\ApiException\ApiException()));
 		$googlePlacesDetailQuery = new GooglePlacesDetailQuery();
 		$googlePlacesDetailQuery
 			->setApiKey('INVALID_API_KEY')
