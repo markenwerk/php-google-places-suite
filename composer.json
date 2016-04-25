@@ -1,7 +1,7 @@
 {
   "name": "markenwerk/google-places-suite",
   "type": "library",
-  "description": " A PHP library to query Google's Places service for querying locations and addresses and getting details by Places ID.",
+  "description": "A PHP library to query Google's Places service for querying locations and addresses and getting details by Places ID.",
   "keywords": [
     "Google",
     "Geolocation",
@@ -23,7 +23,8 @@
     }
   },
   "require": {
-    "php": ">=5.3"
+    "php": ">=5.3",
+    "markenwerk/google-datastructures": "*"
   },
   "require-dev":{
     "phpunit/phpunit": "~4.8",

@@ -29,86 +29,20 @@ require_once('path/to/vendor/autoload.php');
 
 ---
 
-### Performing a GeoLookup
+### Performing a Google Places Query
 
-#### Resolving an address
-
-```{php}
-try{
-	// Perform lookup
-	$addressLookup = new GoogleGeocode\AddressLookup();
-	$addressLookup->lookup('Germany, 24105 Kiel, Lornsenstraße 43');
-
-	// Retrieving the lookup as an array of GoogleGeocode\GeoLookupResult instances
-	$lookupResults = $addressLookup->getResults();
-
-	// Get the number of lookup results
-	$lookupResultCount = $addressLookup->getResultCount();
-
-	// Retrieving the first lookup result as GoogleGeocode\GeoLookupResult instance
-	$firstResult = $addressLookup->getFirstResult();
-
-} catch (GoogleGeocode\Exception\NetworkException $exception) {
-	// Google Geocode API is not reachable or curl failed
-} catch (GoogleGeocode\Exception\ApiException $exception) {
-	// Google Geocode API unexpected result
-} catch (GoogleGeocode\Exception\ApiLimitException $exception) {
-	// Google Geocode API requests over the allowed limit
-} catch (GoogleGeocode\Exception\ApiNoResultsException $exception) {
-	// Google Geocode API request had no result
-}
-
-```
-
-#### Resolving a geo location
+#### Getting detail information about a known Google Places ID
 
 ```{php}
 try{
-	// Perform lookup
-	$geoLocationLookup = new GoogleGeocode\GeoLocationLookup();
-	$geoLocationLookup->lookup(54.334123, 10.1364007);
+	// Perform query
+	$googlePlacesDetailQuery = new GooglePlacesDetailQuery();
+	$googlePlacesDetailQuery
+		->setApiKey($this->googlePlacesApiKey)
+		->query('GOOGLE_PLACES_ID');
 
-	// Retrieving the lookup as an array of GoogleGeocode\GeoLookupResult instances
-	$lookupResults = $geoLocationLookup->getResults();
-
-	// Get the number of lookup results
-	$lookupResultCount = $geoLocationLookup->getResultCount();
-
-	// Retrieving the first lookup result as GoogleGeocode\AddressLookupResult instance
-	$firstResult = $geoLocationLookup->getFirstResult();
-
-} catch (GoogleGeocode\Exception\NetworkException $exception) {
-	// Google Geocode API is not reachable or curl failed
-} catch (GoogleGeocode\Exception\ApiException $exception) {
-	// Google Geocode API unexpected result
-} catch (GoogleGeocode\Exception\ApiLimitException $exception) {
-	// Google Geocode API requests over the allowed limit
-} catch (GoogleGeocode\Exception\ApiNoResultsException $exception) {
-	// Google Geocode API request had no result
-}
-
-```
-
-#### Resolving a Google Places ID
-
-Resolving Google Places IDs utilizes the Google Places API. Therefore a Places API key is mandatory for performing a lookup. Please visit the [Google API console](https://console.developers.google.com/apis/api/geocoding_backend?project=_) to receive an API key.
-
-```{php}
-try{
-	// Perform lookup
-	$googlePlacesLookup = new GoogleGeocode\GooglePlacesLookup();
-	$googlePlacesLookup
-		->setApiKey('MY_GOOGLE_PLACES_API_KEY')
-		->lookup('ChIJ_zNzWmpWskcRP8DWT5eX5jQ');
-
-	// Retrieving the lookup as an array of GoogleGeocode\GeoLookupResult instances
-	$lookupResults = $googlePlacesLookup->getResults();
-
-	// Get the number of lookup results
-	$lookupResultCount = $googlePlacesLookup->getResultCount();
-
-	// Retrieving the first lookup result as GoogleGeocode\AddressLookupResult instance
-	$firstResult = $googlePlacesLookup->getFirstResult();
+	// Retrieving the query result as GooglePlacesSuite\GooglePlacesDetailResult instance
+	$queryResult = $googlePlacesDetailQuery->getResult();
 
 } catch (GoogleGeocode\Exception\NetworkException $exception) {
 	// Google Geocode API is not reachable or curl failed
@@ -124,100 +58,104 @@ try{
 
 ---
 
-### Reading from a GeoLookupResult
+### Reading from a GooglePlacesDetailResult
 
 **Attention:** Plaese note that all getter methods on the `GeoLocationAddress` return a `GeoLocationAddressComponent` instance or `null`. For preventing calls on non-objects the `GeoLocationAddress` class provides methods to check whether the address components exists. 
 
 ```{php}
-// Retrieving the first lookup result as GoogleGeocode\GeoLookupResult instance
-$firstResult = $addressLookup->getFirstResult();
+// Retrieving the query result as GooglePlacesSuite\GooglePlacesDetailResult instance
+$queryResult = $googlePlacesDetailQuery->getResult();
 
-// Retieving address information as GoogleGeocode\GeoLocation\GeoLocationAddress
-$geoLocationAddress = $firstResult->getAddress();
+// Retieving address information as GoogleDataStructure\GeoLocation\GeoLocationAddress
+if($queryResult->hasAddress()) {
 
-if($firstResult->hasAddress()) {
-
-	// Retrieving the address information from the lookup result
-
-	if($firstResult->getAddress()->hasStreetName()) {
+	if ($queryResult->getAddress()->hasStreetName()) {
 		// Returns 'Lornsenstraße'
-		$addressStreetShort = $firstResult->getAddress()->getStreetName()->getShortName();
+		$addressStreetShort = $queryResult->getAddress()->getStreetName()->getShortName();
 		// Returns 'Lornsenstraße'
-		$addressStreetLong = $firstResult->getAddress()->getStreetName()->getLongName();
+		$addressStreetLong = $queryResult->getAddress()->getStreetName()->getLongName();
 	}
 
-	if($firstResult->getAddress()->hasStreetNumber()) {
+	if ($queryResult->getAddress()->hasStreetNumber()) {
 		// Returns '43'
-		$addressStreetNumberShort = $firstResult->getAddress()->getStreetNumber()->getShortName();
+		$addressStreetNumberShort = $queryResult->getAddress()->getStreetNumber()->getShortName();
 		// Returns '43'
-		$addressStreetNumberLong = $firstResult->getAddress()->getStreetNumber()->getLongName();
+		$addressStreetNumberLong = $queryResult->getAddress()->getStreetNumber()->getLongName();
 	}
 
-	if($firstResult->getAddress()->hasPostalCode()) {
+	if ($queryResult->getAddress()->hasPostalCode()) {
 		// Returns '24105'
-		$addressPostalCodeShort = $firstResult->getAddress()->getPostalCode()->getShortName();
+		$addressPostalCodeShort = $queryResult->getAddress()->getPostalCode()->getShortName();
 		// Returns '24105'
-		$addressPostalCodeLong = $firstResult->getAddress()->getPostalCode()->getLongName();
+		$addressPostalCodeLong = $queryResult->getAddress()->getPostalCode()->getLongName();
 	}
 
-	if($firstResult->getAddress()->hasCity()) {
+	if ($queryResult->getAddress()->hasCity()) {
 		// Returns 'KI'
-		$addressCityShort = $firstResult->getAddress()->getCity()->getShortName();
+		$addressCityShort = $queryResult->getAddress()->getCity()->getShortName();
 		// Returns 'Kiel'
-		$addressCityLong = $firstResult->getAddress()->getCity()->getLongName();
+		$addressCityLong = $queryResult->getAddress()->getCity()->getLongName();
 	}
 
-	if($firstResult->getAddress()->hasArea()) {
+	if ($queryResult->getAddress()->hasArea()) {
 		// Returns 'Ravensberg - Brunswik - Düsternbrook'
-		$addressAreaShort = $firstResult->getAddress()->getArea()->getShortName();
+		$addressAreaShort = $queryResult->getAddress()->getArea()->getShortName();
 		// Returns 'Ravensberg - Brunswik - Düsternbrook'
-		$addressAreaLong = $firstResult->getAddress()->getArea()->getLongName();
+		$addressAreaLong = $queryResult->getAddress()->getArea()->getLongName();
 	}
 
-	if($firstResult->getAddress()->hasProvince()) {
+	if ($queryResult->getAddress()->hasProvince()) {
 		// Returns 'SH'
-		$addressProvinceShort = $firstResult->getAddress()->getProvince()->getShortName();
+		$addressProvinceShort = $queryResult->getAddress()->getProvince()->getShortName();
 		// Returns 'Schleswig-Holstein'
-		$addressProvinceLong = $firstResult->getAddress()->getProvince()->getLongName();
+		$addressProvinceLong = $queryResult->getAddress()->getProvince()->getLongName();
 	}
 
-	if($firstResult->getAddress()->hasCountry()) {
+	if ($queryResult->getAddress()->hasCountry()) {
 		// Returns 'DE'
-		$addressCountryShort = $firstResult->getAddress()->getCountry()->getShortName();
+		$addressCountryShort = $queryResult->getAddress()->getCountry()->getShortName();
 		// Returns 'Germany'
-		$addressCountryLong = $firstResult->getAddress()->getCountry()->getLongName();
+		$addressCountryLong = $queryResult->getAddress()->getCountry()->getLongName();
 	}
 
 }
 
-if($firstResult->hasGeometry()) {
+// Retieving address information as GoogleDataStructure\GeoLocation\GeoLocationGeometry
+if ($queryResult->hasGeometry()) {
 
-	// Retrieving the geometry information from the lookup result
-
-	if($firstResult->getGeometry()->hasLocation()) {
+	if ($queryResult->getGeometry()->hasLocation()) {
 		// Returns 54.334123
-		$geometryLocationLatitude = $firstResult->getGeometry()->getLocation()->getLatitude();
+		$geometryLocationLatitude = $queryResult->getGeometry()->getLocation()->getLatitude();
 		// Returns 10.1364007
-		$geometryLocationLatitude = $firstResult->getGeometry()->getLocation()->getLongitude();
+		$geometryLocationLatitude = $queryResult->getGeometry()->getLocation()->getLongitude();
 	}
 
-	if($firstResult->getGeometry()->hasViewport()) {
+	if ($queryResult->getGeometry()->hasViewport()) {
 		// Returns 54.335471980291
-		$geometryLocationLatitude = $firstResult->getGeometry()->getViewport()->getNortheast()->getLatitude();
+		$geometryLocationLatitude = $queryResult->getGeometry()->getViewport()->getNortheast()->getLatitude();
 		// Returns 10.137749680292
-		$geometryLocationLatitude = $firstResult->getGeometry()->getViewport()->getNortheast()->getLongitude();
+		$geometryLocationLatitude = $queryResult->getGeometry()->getViewport()->getNortheast()->getLongitude();
 		// Returns 54.332774019708
-		$geometryLocationLatitude = $firstResult->getGeometry()->getViewport()->getSouthwest()->getLatitude();
+		$geometryLocationLatitude = $queryResult->getGeometry()->getViewport()->getSouthwest()->getLatitude();
 		// Returns 10.135051719708
-		$geometryLocationLatitude = $firstResult->getGeometry()->getViewport()->getSouthwest()->getLongitude();
+		$geometryLocationLatitude = $queryResult->getGeometry()->getViewport()->getSouthwest()->getLongitude();
+	}
+
+	if ($queryResult->getGeometry()->hasAccessPoints()) {
+		for ($i = 0; $i < $queryResult->getGeometry()->countAccessPoints(); $i++) {
+			// Returns 54.335471980291
+			$geometryAccessPointLatitude = $queryResult->getGeometry()->getAccessPointAt($i)->getLatitude();
+			// Returns 10.137749680292
+			$geometryAccessPointLatitude = $queryResult->getGeometry()->getAccessPointAt($i)->getLongitude();
+		}
 	}
 
 }
 
-if($firstResult->hasGooglePlacesId()) {
-	// Retrieving the Google Places information from the lookup result
+if ($queryResult->hasGooglePlacesId()) {
+	// Retrieving the Google Places information from the query result
 	// Returns 'ChIJ_zNzWmpWskcRP8DWT5eX5jQ'
-	$googlePlacesId = $firstResult->getGooglePlacesId();
+	$googlePlacesId = $queryResult->getGooglePlacesId();
 }
 ```
 
