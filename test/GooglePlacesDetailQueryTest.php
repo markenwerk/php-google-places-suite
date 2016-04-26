@@ -29,6 +29,10 @@ class GooglePlacesDetailQueryTest extends \PHPUnit_Framework_TestCase
 
 	public function testQuerySuccess()
 	{
+		if($this->googlePlacesApiKey === false){
+			$this->markTestSkipped('Google Places query test was skipped. No API key found.');
+		}
+
 		// Perform lookup
 		$googlePlacesDetailQuery = new GooglePlacesDetailQuery();
 		$googlePlacesDetailQuery
@@ -82,6 +86,9 @@ class GooglePlacesDetailQueryTest extends \PHPUnit_Framework_TestCase
 
 	public function testQueryNoResults()
 	{
+		if($this->googlePlacesApiKey === false){
+			$this->markTestSkipped('Google Places query without results test was skipped. No API key found.');
+		}
 		$this->setExpectedException(get_class(new CommonException\ApiException\NoResultException()));
 		$googlePlacesDetailQuery = new GooglePlacesDetailQuery();
 		$googlePlacesDetailQuery
