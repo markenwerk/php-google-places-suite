@@ -14,7 +14,7 @@ A PHP library to query Google's Places service for querying locations and addres
 ```{json}
 {
    	"require": {
-        "markenwerk/google-places-suite": "~1.0"
+        "markenwerk/google-places-suite": "~2.0"
     }
 }
 ```
