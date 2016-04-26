@@ -34,6 +34,9 @@ require_once('path/to/vendor/autoload.php');
 #### Getting detail information about a known Google Places ID
 
 ```{php}
+
+use CommonException;
+
 try{
 	// Perform query
 	$googlePlacesDetailQuery = new GooglePlacesDetailQuery();
@@ -44,14 +47,16 @@ try{
 	// Retrieving the query result as GooglePlacesSuite\GooglePlacesDetailResult instance
 	$queryResult = $googlePlacesDetailQuery->getResult();
 
-} catch (GoogleGeocode\Exception\NetworkException $exception) {
-	// Google Geocode API is not reachable or curl failed
-} catch (GoogleGeocode\Exception\ApiException $exception) {
-	// Google Geocode API unexpected result
-} catch (GoogleGeocode\Exception\ApiLimitException $exception) {
-	// Google Geocode API requests over the allowed limit
-} catch (GoogleGeocode\Exception\ApiNoResultsException $exception) {
-	// Google Geocode API request had no result
+} catch (CommonException\NetworkException\CurlException) {
+	// Google Places service is not reachable or curl failed
+} catch (CommonException\ApiException\InvalidResponseException $exception) {
+	// Google Places service invalid response
+} catch (CommonException\ApiException\RequestQuotaException $exception) {
+	// Google Places service requests over the allowed limit
+} catch (CommonException\ApiException\AuthenticationException $exception) {
+	// Google Places service API key invalid
+} catch (CommonException\ApiException\NoResultException $exception) {
+	// Google places service query had no result
 }
 
 ```
@@ -158,6 +163,11 @@ if ($queryResult->hasGooglePlacesId()) {
 	$googlePlacesId = $queryResult->getGooglePlacesId();
 }
 ```
+
+## Exception handling
+
+PHP Google Places Suite provides different exceptions provided by the PHP Common Exceptions project for proper handling.  
+You can find more information about [PHP Common Exceptions at Github](https://github.com/markenwerk/php-common-exceptions).
 
 ## Contribution
 
