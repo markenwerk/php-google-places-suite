@@ -1,13 +1,13 @@
 <?php
 
-namespace GooglePlacesSuite;
+namespace Markenwerk\GooglePlacesSuite;
 
-use GoogleDataStructure\GeoLocation;
+use Markenwerk\GoogleDataStructure\GeoLocation;
 
 /**
  * Class GooglePlacesDetailResult
  *
- * @package GooglePlacesSuite
+ * @package Markenwerk\GooglePlacesSuite
  */
 class GooglePlacesDetailResult
 {

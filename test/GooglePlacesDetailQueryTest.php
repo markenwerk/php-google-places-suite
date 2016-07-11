@@ -1,13 +1,13 @@
 <?php
 
-namespace GooglePlacesSuite;
+namespace Markenwerk\GooglePlacesSuite;
 
-use CommonException;
+use Markenwerk\CommonException;
 
 /**
  * Class GooglePlacesDetailQueryTest
  *
- * @package GooglePlacesSuite
+ * @package Markenwerk\GooglePlacesSuite
  */
 class GooglePlacesDetailQueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,7 +41,7 @@ class GooglePlacesDetailQueryTest extends \PHPUnit_Framework_TestCase
 
 		// Validate results
 		$queryResult = $googlePlacesDetailQuery->getResult();
-		$this->assertInstanceOf('GooglePlacesSuite\\GooglePlacesDetailResult', $queryResult);
+		$this->assertInstanceOf('Markenwerk\\GooglePlacesSuite\\GooglePlacesDetailResult', $queryResult);
 
 		// Address result
 		$this->assertTrue($queryResult->hasAddress());
@@ -76,8 +76,8 @@ class GooglePlacesDetailQueryTest extends \PHPUnit_Framework_TestCase
 		$this->assertLessThanOrEqual(54.4, $geometryResult->getLocation()->getLatitude());
 		$this->assertGreaterThanOrEqual(10.1, $geometryResult->getLocation()->getLongitude());
 		$this->assertLessThanOrEqual(10.2, $geometryResult->getLocation()->getLongitude());
-		$this->assertFalse($geometryResult->hasViewport());
-		$this->assertTrue($geometryResult->hasAccessPoints());
+		$this->assertTrue($geometryResult->hasViewport());
+		$this->assertFalse($geometryResult->hasAccessPoints());
 
 		// Google Places ID
 		$this->assertTrue($queryResult->hasGooglePlacesId());

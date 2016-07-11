@@ -1,15 +1,15 @@
 <?php
 
-namespace GooglePlacesSuite;
+namespace Markenwerk\GooglePlacesSuite;
 
-use CommonException;
+use Markenwerk\CommonException;
 
 /**
  * Class GooglePlacesDetail
  *
- * @package GooglePlacesSuite
+ * @package Markenwerk\GooglePlacesSuite
  */
-class GooglePlacesDetailQuery extends Base\BaseGooglePlacesQuery
+class GooglePlacesDetailQuery extends AbstractGooglePlacesQuery
 {
 
 	/**

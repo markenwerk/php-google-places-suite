@@ -1,17 +1,17 @@
 <?php
 
-namespace GooglePlacesSuite\Base;
+namespace Markenwerk\GooglePlacesSuite;
 
-use CommonException;
-use GooglePlacesSuite;
-use GoogleDataStructure;
+use Markenwerk\CommonException;
+use Markenwerk\GooglePlacesSuite;
+use Markenwerk\GoogleDataStructure;
 
 /**
- * Class BaseLookup
+ * Class AbstractGooglePlacesQuery
  *
- * @package GooglePlacesSuite\Base
+ * @package Markenwerk\GooglePlacesSuite\Base
  */
-abstract class BaseGooglePlacesQuery
+abstract class AbstractGooglePlacesQuery
 {
 
 	const API_BASE_URL = 'https://maps.googleapis.com/maps/api/place/details/json?sensor=false';
