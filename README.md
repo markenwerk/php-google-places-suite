@@ -48,15 +48,15 @@ try{
 	// Retrieving the query result as Markenwerk\GooglePlacesSuite\GooglePlacesDetailResult instance
 	$queryResult = $googlePlacesDetailQuery->getResult();
 
-} catch (Markenwerk\CommonException\NetworkException\CurlException) {
+} catch (CommonException\NetworkException\CurlException) {
 	// Google Places service is not reachable or curl failed
 } catch (CommonException\ApiException\InvalidResponseException $exception) {
 	// Google Places service invalid response
-} catch (Markenwerk\CommonException\ApiException\RequestQuotaException $exception) {
+} catch (CommonException\ApiException\RequestQuotaException $exception) {
 	// Google Places service requests over the allowed limit
 } catch (Markenwerk\CommonException\ApiException\AuthenticationException $exception) {
 	// Google Places service API key invalid
-} catch (Markenwerk\CommonException\ApiException\NoResultException $exception) {
+} catch (CommonException\ApiException\NoResultException $exception) {
 	// Google places service query had no result
 }
 
