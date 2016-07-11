@@ -15,7 +15,7 @@ A PHP library to query Google's Places service for querying locations and addres
 ```{json}
 {
    	"require": {
-        "markenwerk/google-places-suite": "~2.0"
+        "markenwerk/google-places-suite": "~3.0"
     }
 }
 ```
@@ -36,7 +36,7 @@ require_once('path/to/vendor/autoload.php');
 
 ```{php}
 
-use CommonException;
+use Markenwerk\CommonException;
 
 try{
 	// Perform query
@@ -45,18 +45,18 @@ try{
 		->setApiKey($this->googlePlacesApiKey)
 		->query('GOOGLE_PLACES_ID');
 
-	// Retrieving the query result as GooglePlacesSuite\GooglePlacesDetailResult instance
+	// Retrieving the query result as Markenwerk\GooglePlacesSuite\GooglePlacesDetailResult instance
 	$queryResult = $googlePlacesDetailQuery->getResult();
 
-} catch (CommonException\NetworkException\CurlException) {
+} catch (Markenwerk\CommonException\NetworkException\CurlException) {
 	// Google Places service is not reachable or curl failed
 } catch (CommonException\ApiException\InvalidResponseException $exception) {
 	// Google Places service invalid response
-} catch (CommonException\ApiException\RequestQuotaException $exception) {
+} catch (Markenwerk\CommonException\ApiException\RequestQuotaException $exception) {
 	// Google Places service requests over the allowed limit
-} catch (CommonException\ApiException\AuthenticationException $exception) {
+} catch (Markenwerk\CommonException\ApiException\AuthenticationException $exception) {
 	// Google Places service API key invalid
-} catch (CommonException\ApiException\NoResultException $exception) {
+} catch (Markenwerk\CommonException\ApiException\NoResultException $exception) {
 	// Google places service query had no result
 }
 
@@ -69,10 +69,10 @@ try{
 **Attention:** Plaese note that all getter methods on the `GeoLocationAddress` return a `GeoLocationAddressComponent` instance or `null`. For preventing calls on non-objects the `GeoLocationAddress` class provides methods to check whether the address components exists. 
 
 ```{php}
-// Retrieving the query result as GooglePlacesSuite\GooglePlacesDetailResult instance
+// Retrieving the query result as Markenwerk\GooglePlacesSuite\GooglePlacesDetailResult instance
 $queryResult = $googlePlacesDetailQuery->getResult();
 
-// Retieving address information as GoogleDataStructure\GeoLocation\GeoLocationAddress
+// Retieving address information as Markenwerk\GoogleDataStructure\GeoLocation\GeoLocationAddress
 if($queryResult->hasAddress()) {
 
 	if ($queryResult->getAddress()->hasStreetName()) {
@@ -126,7 +126,7 @@ if($queryResult->hasAddress()) {
 
 }
 
-// Retieving address information as GoogleDataStructure\GeoLocation\GeoLocationGeometry
+// Retieving address information as Markenwerk\GoogleDataStructure\GeoLocation\GeoLocationGeometry
 if ($queryResult->hasGeometry()) {
 
 	if ($queryResult->getGeometry()->hasLocation()) {
