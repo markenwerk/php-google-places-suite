@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/markenwerk/php-google-places-suite.svg?branch=master)](https://travis-ci.org/markenwerk/php-google-places-suite)
 [![Test Coverage](https://codeclimate.com/github/markenwerk/php-google-places-suite/badges/coverage.svg)](https://codeclimate.com/github/markenwerk/php-google-places-suite/coverage)
 [![Dependency Status](https://www.versioneye.com/user/projects/571f7843fcd19a0039f18149/badge.svg)](https://www.versioneye.com/user/projects/571f7843fcd19a0039f18149)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/659a0a61-7242-4c06-b0b6-3a904627ce45.svg)](https://insight.sensiolabs.com/projects/659a0a61-7242-4c06-b0b6-3a904627ce45)
 [![Code Climate](https://codeclimate.com/github/markenwerk/php-google-places-suite/badges/gpa.svg)](https://codeclimate.com/github/markenwerk/php-google-places-suite)
 [![Latest Stable Version](https://poser.pugx.org/markenwerk/google-places-suite/v/stable)](https://packagist.org/packages/markenwerk/google-places-suite)
 [![Total Downloads](https://poser.pugx.org/markenwerk/google-places-suite/downloads)](https://packagist.org/packages/markenwerk/google-places-suite)
