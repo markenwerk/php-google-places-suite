@@ -92,7 +92,7 @@ abstract class AbstractGooglePlacesQuery
 		if (!$response) {
 			throw new CommonException\NetworkException\CurlException('Curling the API endpoint ' . $url . ' failed.');
 		}
-		$responseData = @json_decode($response, true);
+		$responseData = json_decode($response, true);
 		$this->validateResponse($response, $responseData);
 		return $responseData;
 	}
